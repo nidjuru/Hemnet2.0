@@ -4,14 +4,16 @@ using HemnetAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HemnetAPI.Migrations
 {
     [DbContext(typeof(HemnetContext))]
-    partial class HemnetContextModelSnapshot : ModelSnapshot
+    [Migration("20210416083739_updated_price")]
+    partial class updated_price
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

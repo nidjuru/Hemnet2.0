@@ -14,7 +14,7 @@ namespace HemnetAPI.Models
             public string Address { get; set; }
             public string HousingType { get; set; }
             public string FormOfLease { get; set; }
-            public int Price { get; set; }
+            public string Price { get; set; }
             public int Rooms { get; set; }
             public int LivingArea { get; set; }
             public int? BiArea { get; set; }

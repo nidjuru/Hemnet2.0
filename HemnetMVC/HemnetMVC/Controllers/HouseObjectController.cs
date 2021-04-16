@@ -11,8 +11,9 @@ namespace HemnetMVC.Controllers
 {
     public class HouseObjectController : Controller
     {
+
         // GET: HouseObjectController
-        public async Task <ActionResult> Index()
+        public async Task<ActionResult> Index()
         {
             IList<HouseObjectViewModel> houses = null;
 
@@ -34,72 +35,90 @@ namespace HemnetMVC.Controllers
         }
 
         // GET: HouseObjectController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
-        }
 
-        // GET: HouseObjectController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+            HouseObjectViewModel houses = null;
 
-        // POST: HouseObjectController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            using (var client = new HttpClient())
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                var result = await client.GetAsync("http://localhost:58403/api/HouseObjects/" + id);
 
-        // GET: HouseObjectController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+                if (result.IsSuccessStatusCode)
+                {
+                    houses = await result.Content.ReadAsAsync<HouseObjectViewModel>();
+                }
+                else
+                {
+                    return NotFound();
+                }
 
-        // POST: HouseObjectController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                return View(houses);
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: HouseObjectController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            // GET: HouseObjectController/Create
+            //public ActionResult Create()
+            //{
+            //    return View();
+            //}
 
-        // POST: HouseObjectController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            //// POST: HouseObjectController/Create
+            //[HttpPost]
+            //[ValidateAntiForgeryToken]
+            //public ActionResult Create(IFormCollection collection)
+            //{
+            //    try
+            //    {
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //    catch
+            //    {
+            //        return View();
+            //    }
+            //}
+
+            //// GET: HouseObjectController/Edit/5
+            //public ActionResult Edit(int id)
+            //{
+            //    return View();
+            //}
+
+            //// POST: HouseObjectController/Edit/5
+            //[HttpPost]
+            //[ValidateAntiForgeryToken]
+            //public ActionResult Edit(int id, IFormCollection collection)
+            //{
+            //    try
+            //    {
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //    catch
+            //    {
+            //        return View();
+            //    }
+            //}
+
+            //// GET: HouseObjectController/Delete/5
+            //public ActionResult Delete(int id)
+            //{
+            //    return View();
+            //}
+
+            //// POST: HouseObjectController/Delete/5
+            //[HttpPost]
+            //[ValidateAntiForgeryToken]
+            //public ActionResult Delete(int id, IFormCollection collection)
+            //{
+            //    try
+            //    {
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //    catch
+            //    {
+            //        return View();
+            //    }
+            //}
+            //}
         }
     }
 }
