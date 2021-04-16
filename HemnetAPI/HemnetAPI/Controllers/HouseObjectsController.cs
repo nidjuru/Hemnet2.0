@@ -25,7 +25,7 @@ namespace HemnetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HouseObject>>> GetHouseObjects()
         {
-            return await _context.HouseObjects.Include(b => b.Brooker).ToListAsync();
+            return await _context.HouseObjects.Include(b => b.Brooker).Include(c => c.Coordinate).ToListAsync();
         }
 
         // GET: api/HouseObjects/5
@@ -34,6 +34,7 @@ namespace HemnetAPI.Controllers
         {
             var houseObject = await _context.HouseObjects.FindAsync(id);
             houseObject.Brooker = await _context.Brookers.FirstOrDefaultAsync(brooker => brooker.BrookerId == houseObject.BrookerId);
+            houseObject.Coordinate = await _context.Coordinates.FirstOrDefaultAsync(coordinate => coordinate.CoordinateId == houseObject.CoordinateId);
 
             if (houseObject == null)
             {
