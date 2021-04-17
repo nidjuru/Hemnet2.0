@@ -13,7 +13,7 @@ namespace HemnetMVC.Controllers
     {
 
         // GET: HouseObjectController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string searchString, string priceRange)
         {
             IList<HouseObjectViewModel> houses = null;
 
@@ -24,6 +24,25 @@ namespace HemnetMVC.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     houses = await result.Content.ReadAsAsync<IList<HouseObjectViewModel>>();
+
+                    // Searchbox
+                    if (!string.IsNullOrEmpty(searchString))
+                    {
+                        var searchResult = houses
+                            .Where(r => r.Address.ToLower().Contains(searchString.ToLower()));
+
+                        // Show to results on the search
+                        return View(searchResult);
+                    }
+
+                    if (!string.IsNullOrEmpty(priceRange))
+                    {                        
+                        var searchResult = houses
+                            .Where(r => Convert.ToDouble(r.Price) >= Convert.ToDouble(priceRange));
+
+                        // Show to results on the search
+                        return View(searchResult);
+                    }
 
                 }
                 else

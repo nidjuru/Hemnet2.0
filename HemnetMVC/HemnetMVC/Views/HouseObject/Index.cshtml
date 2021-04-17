@@ -11,6 +11,21 @@
 </head>
 <body>
     <div class="main">
+        <div>
+            <p>Sök på en address</p>
+        </div>
+        <div class="searchbar">
+            <form autocomplete="off" method="post" action="" style="outline:none">
+                @Html.TextBox("SearchString", "", new { placeholder = "Type here" }) <br />
+            </form>
+        </div>
+        <div class="searchbar">
+            <form autocomplete="off" method="post" action="" style="outline:none">
+                @Html.TextBox("PriceRange", "", new { type = "number", min = "10000", step = "10000" })
+            </form>
+        </div>
+
+
         <ul class="cards">
 
             @foreach (var item in Model)
