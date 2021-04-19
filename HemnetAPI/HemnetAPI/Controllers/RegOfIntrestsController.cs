@@ -25,7 +25,7 @@ namespace HemnetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegOfIntrest>>> GetRegOfIntrests()
         {
-            return await _context.RegOfIntrests.ToListAsync();
+            return await _context.RegOfIntrests.Include(c => c.Customer).Include(h => h.HouseObject).ToListAsync();
         }
 
         // GET: api/RegOfIntrests/5

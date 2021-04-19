@@ -34,6 +34,7 @@ namespace HemnetAPI.Controllers
         {
             var customer = await _context.Customers.FindAsync(id);
 
+
             if (customer == null)
             {
                 return NotFound();
