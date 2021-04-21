@@ -19,7 +19,7 @@ body {
     font-style: normal;
     font-weight: 400;
     letter-spacing: 0;
-    padding: 1rem;
+    /*padding: 1rem;*/
 }
 
 .main {
@@ -76,7 +76,23 @@ a {
 }
 .img-container{
     margin-bottom:50px;
+    text-align: center;
 
+}
+
+.button-intrest{
+    border: 1px solid black;
+    width: 100px;
+}
+
+/*.searchbar {
+    display: inline;
+    padding: 1rem;
+}*/
+
+form{
+    display: inline-block;
+    padding: 1rem;
 }
 
 @media (min-width: 40rem) {

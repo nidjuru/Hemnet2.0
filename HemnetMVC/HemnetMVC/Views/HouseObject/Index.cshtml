@@ -11,20 +11,14 @@
 </head>
 <body>
     <div class="main">
-        <div>
-            <p>Sök på en address</p>
-        </div>
-        <div class="searchbar">
-            <form autocomplete="off" method="post" action="" style="outline:none">
-                @Html.TextBox("SearchString", "", new { placeholder = "Type here" }) <br />
+        <div class="searchbar">            
+            <form autocomplete="off" method="post" action="" style="outline:none">                
+                @Html.TextBox("SearchString", "", new { placeholder = "Sök på address" }) <br />
             </form>
-        </div>
-        <div class="searchbar">
             <form autocomplete="off" method="post" action="" style="outline:none">
-                @Html.TextBox("PriceRange", "", new { type = "number", min = "10000", step = "10000" })
+                @Html.TextBox("PriceRange", "", new { type = "number", min = "500000", step = "500000", placeholder = "Sök på pris" })
             </form>
-        </div>
-
+        </div> 
 
         <ul class="cards">
 
