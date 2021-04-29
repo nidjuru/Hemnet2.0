@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 const url = `http://localhost:58403/api/HouseObjects`;
 
-const GetSingelObject = () =>{
+const ChangeObject = () =>{
     let {houseObjectId} = useParams();
     const getObjectURL = `${url}/${houseObjectId}`;
     const [objectState, setObjectState] = useState([]);
@@ -18,10 +18,10 @@ const GetSingelObject = () =>{
 
     return (
         <>
-        <p>Address: {objectState.address}</p>
+        <p>Ändra på objekt</p>
         </>
     )
 
 };
 
-export default GetSingelObject;
+export default ChangeObject;

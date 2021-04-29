@@ -28,16 +28,18 @@ namespace HemnetAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors(opt => opt.AddDefaultPolicy(builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               //.WithOrigins("http://localhost:3000", "https://localhost:3000")
+               .AllowAnyHeader()));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HemnetAPI", Version = "v1" });
             });
-            services.AddCors(opt => opt.AddPolicy("MyCorsPolicy", builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .WithOrigins("http://localhost:3000", "https://localhost:3000")
-                .AllowAnyHeader()));
+            
             services.AddDbContext<HemnetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -61,7 +63,7 @@ namespace HemnetAPI
 
             app.UseHttpsRedirection();
 
-            app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

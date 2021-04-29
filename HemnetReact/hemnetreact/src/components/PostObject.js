@@ -19,7 +19,8 @@ const PostObject = () => {
   const [buildYear, setBuildYear] = useState();
   const [brookerId, setBrookerId] = useState();
 
-  const SubmitForm = () => {
+  const SubmitForm = (event) => {
+    event.preventDefault();
     const body = {
       images: images,
       address: address,
@@ -39,8 +40,8 @@ const PostObject = () => {
       // brooker: null,
     };
     fetch(url,{
-        method: "POST",
-        headers: { "content-type": "application/JSON" },
+        method: 'POST',
+        headers: { 'Accept': 'application/json','Content-Type': 'application/json' },
         body: JSON.stringify(body),
       }
     ).then((res) =>
@@ -148,7 +149,7 @@ const PostObject = () => {
       <textarea
         type="text"
         placeholder="Beskrivning"
-        class="form-control"
+        className="form-control"
         rows="3"           
         value={descriptions}
         onChange={(event) => setDescriptions(event.target.value)}
@@ -159,7 +160,7 @@ const PostObject = () => {
         value={brookerId}
         onChange={(event) => setBrookerId(event.target.value)}
       />
-      <button onClick={() => SubmitForm()}>Submit</button>
+      <button onClick={SubmitForm}>Submit</button>
       </form>
     </div>
   );
