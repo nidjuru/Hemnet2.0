@@ -10,10 +10,10 @@
         // Initialize and add the map
         function initMap() {
             // The location of setCoordinates
-            const setCoordinates = { lat:@Model.Coordinate.Longitude , lng: @Model.Coordinate.Latitude };
+            const setCoordinates = { lat:@Model.Latitude , lng: @Model.Longitude };
             // The map, centered at setCoordinates
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 15,
+                zoom: 8,
                 center: setCoordinates,
             });
             // The marker, positioned at setCoordinates
@@ -123,11 +123,41 @@
 </div>
 <div id="map"></div>
 
-<button class="button-intrest" asp-controller="Customer" asp-action="Create" asp-route-id="@Model.HouseObjectId">Intresseanmälan</button>     
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RegOfIntrest" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group" hidden>
+                <label asp-for="HouseObjectId" class="control-label"></label>
+                <input asp-for="HouseObjectId" class="form-control" />
+                <span asp-validation-for="HouseObjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" required/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" required/>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" required/>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>    
     
 <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-i6OyTv8dONZ3tJZf0UeGcsEWd9nP2NU&callback=initMap&libraries=&v=weekly"
         async></script>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Tillbaka till bostadsvyn</a>
 </div>

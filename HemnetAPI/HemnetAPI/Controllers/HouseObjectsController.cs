@@ -25,7 +25,7 @@ namespace HemnetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HouseObject>>> GetHouseObjects()
         {
-            return await _context.HouseObjects.Include(b => b.Brooker).Include(c => c.Coordinate).ToListAsync();
+            return await _context.HouseObjects.Include(b => b.Brooker).ToListAsync();
         }
 
         // GET: api/HouseObjects/5
@@ -34,7 +34,6 @@ namespace HemnetAPI.Controllers
         {
             var houseObject = await _context.HouseObjects.FindAsync(id);
             houseObject.Brooker = await _context.Brookers.FirstOrDefaultAsync(brooker => brooker.BrookerId == houseObject.BrookerId);
-            houseObject.Coordinate = await _context.Coordinates.FirstOrDefaultAsync(coordinate => coordinate.CoordinateId == houseObject.CoordinateId);
 
             if (houseObject == null)
             {
@@ -102,9 +101,59 @@ namespace HemnetAPI.Controllers
             return NoContent();
         }
 
+        // POST: api/RegOfIntrest        
+        [HttpPost("{houseObjectId}/RegOfIntrest")]
+        public async Task<ActionResult<RegOfIntrest>> RegOfIntrest(int houseObjectId, Customer customer)
+        {
+            // check if the book exists
+            var house = await _context.HouseObjects.FindAsync(houseObjectId);
+            if (house == null)
+            {
+                return NotFound();
+            }
+
+            // create user if it doesn't exist
+            if (!CustomerExists(customer.Email))
+            {
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
+            }
+
+
+            var subscription = new RegOfIntrest() { HouseObjectId = houseObjectId, CustomerEmail = customer.Email };
+
+            // check if the user is already subscribed and return conflict
+            if (RegOfIntrestExists(subscription.HouseObjectId, subscription.CustomerEmail))
+            {
+                return Conflict();
+            }
+
+            // finally add subscription
+            _context.RegOfIntrests.Add(subscription);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+
+            return subscription;
+        }
+
         private bool HouseObjectExists(int id)
         {
             return _context.HouseObjects.Any(e => e.HouseObjectId == id);
+        }
+        private bool RegOfIntrestExists(int houseObjectId, string customerEmail)
+        {
+            return _context.RegOfIntrests.Any(e => e.HouseObjectId == houseObjectId && e.CustomerEmail == customerEmail);
+        }
+
+        private bool CustomerExists(string email)
+        {
+            return _context.Customers.Any(e => e.Email == email);
         }
     }
 }

@@ -25,15 +25,14 @@ namespace HemnetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.Customers.Include(r => r.RegOfIntrests).ThenInclude(h => h.HouseObject).ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(string id)
         {
             var customer = await _context.Customers.FindAsync(id);
-
 
             if (customer == null)
             {
@@ -46,9 +45,9 @@ namespace HemnetAPI.Controllers
         // PUT: api/Customers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutCustomer(string id, Customer customer)
         {
-            if (id != customer.CustomerId)
+            if (id != customer.Email)
             {
                 return BadRequest();
             }
@@ -80,14 +79,28 @@ namespace HemnetAPI.Controllers
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (CustomerExists(customer.Email))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+            return CreatedAtAction("GetCustomer", new { id = customer.Email }, customer);
         }
 
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
+        public async Task<IActionResult> DeleteCustomer(string id)
         {
             var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
@@ -101,9 +114,9 @@ namespace HemnetAPI.Controllers
             return NoContent();
         }
 
-        private bool CustomerExists(int id)
+        private bool CustomerExists(string id)
         {
-            return _context.Customers.Any(e => e.CustomerId == id);
+            return _context.Customers.Any(e => e.Email == id);
         }
     }
 }

@@ -25,12 +25,12 @@ namespace HemnetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegOfIntrest>>> GetRegOfIntrests()
         {
-            return await _context.RegOfIntrests.Include(c => c.Customer).Include(h => h.HouseObject).ToListAsync();
+            return await _context.RegOfIntrests.ToListAsync();
         }
 
         // GET: api/RegOfIntrests/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RegOfIntrest>> GetRegOfIntrest(int id)
+        public async Task<ActionResult<RegOfIntrest>> GetRegOfIntrest(string id)
         {
             var regOfIntrest = await _context.RegOfIntrests.FindAsync(id);
 
@@ -45,9 +45,9 @@ namespace HemnetAPI.Controllers
         // PUT: api/RegOfIntrests/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRegOfIntrest(int id, RegOfIntrest regOfIntrest)
+        public async Task<IActionResult> PutRegOfIntrest(string id, RegOfIntrest regOfIntrest)
         {
-            if (id != regOfIntrest.CustomerId)
+            if (id != regOfIntrest.CustomerEmail)
             {
                 return BadRequest();
             }
@@ -85,7 +85,7 @@ namespace HemnetAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (RegOfIntrestExists(regOfIntrest.CustomerId))
+                if (RegOfIntrestExists(regOfIntrest.CustomerEmail))
                 {
                     return Conflict();
                 }
@@ -95,12 +95,12 @@ namespace HemnetAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetRegOfIntrest", new { id = regOfIntrest.CustomerId }, regOfIntrest);
+            return CreatedAtAction("GetRegOfIntrest", new { id = regOfIntrest.CustomerEmail }, regOfIntrest);
         }
 
         // DELETE: api/RegOfIntrests/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRegOfIntrest(int id)
+        public async Task<IActionResult> DeleteRegOfIntrest(string id)
         {
             var regOfIntrest = await _context.RegOfIntrests.FindAsync(id);
             if (regOfIntrest == null)
@@ -114,9 +114,9 @@ namespace HemnetAPI.Controllers
             return NoContent();
         }
 
-        private bool RegOfIntrestExists(int id)
+        private bool RegOfIntrestExists(string id)
         {
-            return _context.RegOfIntrests.Any(e => e.CustomerId == id);
+            return _context.RegOfIntrests.Any(e => e.CustomerEmail == id);
         }
     }
 }

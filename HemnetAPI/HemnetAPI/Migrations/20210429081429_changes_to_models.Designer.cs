@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HemnetAPI.Migrations
 {
     [DbContext(typeof(HemnetContext))]
-    [Migration("20210416083739_updated_price")]
-    partial class updated_price
+    [Migration("20210429081429_changes_to_models")]
+    partial class changes_to_models
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,33 +46,10 @@ namespace HemnetAPI.Migrations
                     b.ToTable("Brookers");
                 });
 
-            modelBuilder.Entity("HemnetAPI.Models.Coordinate", b =>
-                {
-                    b.Property<int>("CoordinateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Latitude")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Longitude")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CoordinateId");
-
-                    b.ToTable("Coordinates");
-                });
-
             modelBuilder.Entity("HemnetAPI.Models.Customer", b =>
                 {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -84,7 +61,7 @@ namespace HemnetAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("CustomerId");
+                    b.HasKey("Email");
 
                     b.ToTable("Customers");
                 });
@@ -108,9 +85,6 @@ namespace HemnetAPI.Migrations
                     b.Property<int>("BuildYear")
                         .HasColumnType("int");
 
-                    b.Property<int>("CoordinateId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Descriptions")
                         .HasColumnType("nvarchar(max)");
 
@@ -123,8 +97,14 @@ namespace HemnetAPI.Migrations
                     b.Property<string>("Images")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Latitude")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LivingArea")
                         .HasColumnType("int");
+
+                    b.Property<string>("Longitude")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PlotArea")
                         .HasColumnType("int");
@@ -142,20 +122,18 @@ namespace HemnetAPI.Migrations
 
                     b.HasIndex("BrookerId");
 
-                    b.HasIndex("CoordinateId");
-
                     b.ToTable("HouseObjects");
                 });
 
             modelBuilder.Entity("HemnetAPI.Models.RegOfIntrest", b =>
                 {
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("HouseObjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("CustomerId", "HouseObjectId");
+                    b.HasKey("CustomerEmail", "HouseObjectId");
 
                     b.HasIndex("HouseObjectId");
 
@@ -170,22 +148,14 @@ namespace HemnetAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HemnetAPI.Models.Coordinate", "Coordinate")
-                        .WithMany("HouseObjects")
-                        .HasForeignKey("CoordinateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Brooker");
-
-                    b.Navigation("Coordinate");
                 });
 
             modelBuilder.Entity("HemnetAPI.Models.RegOfIntrest", b =>
                 {
                     b.HasOne("HemnetAPI.Models.Customer", "Customer")
                         .WithMany("RegOfIntrests")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("CustomerEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -201,11 +171,6 @@ namespace HemnetAPI.Migrations
                 });
 
             modelBuilder.Entity("HemnetAPI.Models.Brooker", b =>
-                {
-                    b.Navigation("HouseObjects");
-                });
-
-            modelBuilder.Entity("HemnetAPI.Models.Coordinate", b =>
                 {
                     b.Navigation("HouseObjects");
                 });

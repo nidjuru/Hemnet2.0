@@ -36,6 +36,7 @@ namespace HemnetAPI
             services.AddCors(opt => opt.AddPolicy("MyCorsPolicy", builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
+                .WithOrigins("http://localhost:3000", "https://localhost:3000")
                 .AllowAnyHeader()));
             services.AddDbContext<HemnetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -59,6 +60,8 @@ namespace HemnetAPI
             app.UseAuthorization();
 
             app.UseHttpsRedirection();
+
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {

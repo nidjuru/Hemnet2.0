@@ -24,9 +24,17 @@ namespace HemnetMVC.Models
         public DateTime ShowingDate { get; set; }
         public int BuildYear { get; set; }
         public int BrookerId { get; set; }
-        public int CoordinateId { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        [EmailAddress]
+        [Required(ErrorMessage = "Du måste fylla i en korrekt Email-address")]
+        public string Email { get; set; }
+        [Required(ErrorMessage = "Du måste fylla i ett förnamn")]
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Du måste fylla i ett efternamn")]
+        public string LastName { get; set; }
+
 
         public BrookerViewModel Brooker { get; set; }
-        public CoordinateViewModel Coordinate { get; set; }
     }
 }

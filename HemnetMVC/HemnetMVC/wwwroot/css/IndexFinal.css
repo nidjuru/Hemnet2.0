@@ -40,7 +40,7 @@ h1 {
     object-fit: cover;
 }
 
-.btn {
+/*.btn {
     color: #ffffff;
     padding: 0.8rem;
     font-size: 14px;
@@ -56,7 +56,7 @@ h1 {
 
     .btn:hover {
         background-color: rgba(255, 255, 255, 0.12);
-    }
+    }*/
 
 .cards {
     display: flex;

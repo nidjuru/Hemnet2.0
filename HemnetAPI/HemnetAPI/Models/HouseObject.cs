@@ -22,12 +22,13 @@ namespace HemnetAPI.Models
             public string Descriptions { get; set; }
             [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
             public DateTime ShowingDate { get; set; }
-            public int BuildYear { get; set; }
-            public int BrookerId { get; set; }
-            public int CoordinateId { get; set; }
+            public int BuildYear { get; set; }            
+            public string Latitude { get; set; }
+            public string Longitude { get; set; }
+            public int BrookerId { get; set; }            
 
             public  Brooker Brooker { get; set; }
-            public  Coordinate Coordinate { get; set; }
+            
             public ICollection<RegOfIntrest> RegOfIntrests { get; set; }
 
         }

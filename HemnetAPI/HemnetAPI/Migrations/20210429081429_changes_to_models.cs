@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HemnetAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class changes_to_models : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,32 +23,16 @@ namespace HemnetAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Coordinates",
-                columns: table => new
-                {
-                    CoordinateId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Longitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Latitude = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Coordinates", x => x.CoordinateId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                    table.PrimaryKey("PK_Customers", x => x.Email);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,7 +45,7 @@ namespace HemnetAPI.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HousingType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FormOfLease = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rooms = table.Column<int>(type: "int", nullable: false),
                     LivingArea = table.Column<int>(type: "int", nullable: false),
                     BiArea = table.Column<int>(type: "int", nullable: true),
@@ -69,8 +53,9 @@ namespace HemnetAPI.Migrations
                     Descriptions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShowingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BuildYear = table.Column<int>(type: "int", nullable: false),
-                    BrookerId = table.Column<int>(type: "int", nullable: false),
-                    CoordinateId = table.Column<int>(type: "int", nullable: false)
+                    Latitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Longitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrookerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,12 +66,6 @@ namespace HemnetAPI.Migrations
                         principalTable: "Brookers",
                         principalColumn: "BrookerId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HouseObjects_Coordinates_CoordinateId",
-                        column: x => x.CoordinateId,
-                        principalTable: "Coordinates",
-                        principalColumn: "CoordinateId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,16 +73,16 @@ namespace HemnetAPI.Migrations
                 columns: table => new
                 {
                     HouseObjectId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                    CustomerEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RegOfIntrests", x => new { x.CustomerId, x.HouseObjectId });
+                    table.PrimaryKey("PK_RegOfIntrests", x => new { x.CustomerEmail, x.HouseObjectId });
                     table.ForeignKey(
-                        name: "FK_RegOfIntrests_Customers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_RegOfIntrests_Customers_CustomerEmail",
+                        column: x => x.CustomerEmail,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId",
+                        principalColumn: "Email",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RegOfIntrests_HouseObjects_HouseObjectId",
@@ -117,11 +96,6 @@ namespace HemnetAPI.Migrations
                 name: "IX_HouseObjects_BrookerId",
                 table: "HouseObjects",
                 column: "BrookerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HouseObjects_CoordinateId",
-                table: "HouseObjects",
-                column: "CoordinateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RegOfIntrests_HouseObjectId",
@@ -142,9 +116,6 @@ namespace HemnetAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Brookers");
-
-            migrationBuilder.DropTable(
-                name: "Coordinates");
         }
     }
 }
