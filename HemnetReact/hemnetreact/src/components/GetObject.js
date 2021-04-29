@@ -7,9 +7,18 @@ const url = `http://localhost:58403/api/HouseObjects`;
 
 const GetObject = () => {    
     const [objectState, setObjectState] = useState([]);
+    const [token, setToken] = useState("");
+
+    const onResponse = (response) => {
+        setToken(response.tokenId);
+    };
 
     useEffect(() => {
-        fetch(url)
+        fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(res => res.json()
         .then(data => {
             setObjectState(data)

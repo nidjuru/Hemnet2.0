@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HemnetAPI.Data;
 using HemnetAPI.Models;
+using server.API.Attributes;
 
 namespace HemnetAPI.Controllers
 {
@@ -22,6 +23,7 @@ namespace HemnetAPI.Controllers
         }
 
         // GET: api/HouseObjects
+        [GoogleAuthorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HouseObject>>> GetHouseObjects()
         {
@@ -29,6 +31,7 @@ namespace HemnetAPI.Controllers
         }
 
         // GET: api/HouseObjects/5
+        [GoogleAuthorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<HouseObject>> GetHouseObject(int id)
         {
@@ -45,6 +48,7 @@ namespace HemnetAPI.Controllers
 
         // PUT: api/HouseObjects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [GoogleAuthorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHouseObject(int id, HouseObject houseObject)
         {
@@ -76,6 +80,7 @@ namespace HemnetAPI.Controllers
 
         // POST: api/HouseObjects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [GoogleAuthorize]
         [HttpPost]
         public async Task<ActionResult<HouseObject>> PostHouseObject(HouseObject houseObject)
         {
@@ -86,6 +91,7 @@ namespace HemnetAPI.Controllers
         }
 
         // DELETE: api/HouseObjects/5
+        [GoogleAuthorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHouseObject(int id)
         {
