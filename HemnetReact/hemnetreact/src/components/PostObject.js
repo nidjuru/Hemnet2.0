@@ -2,7 +2,9 @@ import React, { useState } from "react";
 
 const url = `http://localhost:58403/api/HouseObjects`;
 
-const PostObject = () => {  
+const PostObject = () => {
+  const token = localStorage.getItem('myToken');
+
   const [images, setImages] = useState("");
   const [address, setAddress] = useState("");
   const [housingType, setHousingType] = useState("");
@@ -39,9 +41,14 @@ const PostObject = () => {
       brookerId: brookerId
       // brooker: null,
     };
+    if(token === null){
+      alert('Du måste vara inloggad för att lägga till ett objekt')
+    }
+    else{
     fetch(url,{
         method: 'POST',
-        headers: { 'Accept': 'application/json','Content-Type': 'application/json' },
+        headers: { 'Accept': 'application/json','Content-Type': 'application/json', 
+        "Authorization": `Bearer ${token}` },
         body: JSON.stringify(body),
       }
     ).then((res) =>
@@ -63,6 +70,7 @@ const PostObject = () => {
         setBrookerId(0);
       })
     );
+  }
   };
 
   return (

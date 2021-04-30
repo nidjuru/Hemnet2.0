@@ -1,42 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
-import DeleteObject from './DeleteObject';
+import { Link, useHistory } from "react-router-dom";
 import './styles/style.css';
 
 const url = `http://localhost:58403/api/HouseObjects`;
 
 const GetObject = () => {    
-    const [objectState, setObjectState] = useState([]);
-    const [token, setToken] = useState("");
-
-    const onResponse = (response) => {
-        setToken(response.tokenId);
-    };
+    const [objectState, setObjectState] = useState([]); 
+    const token = localStorage.getItem('myToken'); 
+    let history = useHistory();
+    console.log(token);
 
     useEffect(() => {
+        if(token === null)
+        {
+            history.push(`/`);
+            alert('Du måste logga in');                 
+        }    
+        else{
         fetch(url, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+            headers:{"Authorization": `Bearer ${token}`}
         })
         .then(res => res.json()
         .then(data => {
             setObjectState(data)
         }));
-    }, []);
-
-    // deleteObject(houseObjectId){
-    //     if(window.confirm('Är du säker?'))
-    //     {
-    //         fetch(url/ + houseObjectId, {
-    //             method: 'DELETE',
-    //             header:{'Accept':'application/json',
-    //             'Content-Type': 'application/json'
-    //         }
-    //         })
-
-    //     }
-    // }
+        
+        }
+    }, []);   
 
 
 
@@ -49,7 +39,7 @@ const GetObject = () => {
                         <>
                             <li className="cards_item">
                                 <div className="card">
-                                    <div className="card_image"><img className="img-card" src={object.images}></img></div>
+                                    <div className="card_image"><img className="img-card" src={object.images} alt="Property"></img></div>
                                     <div className="card_content">
                                         <h2 className="card_title">{object.address}</h2>
                                         <Link to={`/changeobject/${object.houseObjectId}`}><p style={{display: "inline", paddingRight: "15px"}}>Ändra</p></Link>
