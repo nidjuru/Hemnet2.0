@@ -13,6 +13,7 @@ import ChangeObject from './components/ChangeObject';
 import DeleteObject from './components/DeleteObject';
 import Login from './components/Login';
 import Logout from './components/Logout';
+import RegOfIntrest from "./components/RegOfIntrest";
 
 function App() {
   
@@ -34,6 +35,9 @@ function App() {
                 <li className="nav-item">
                   <Link className="nav-link" to="/postobject"><p>Lägg till objekt</p></Link>
                 </li>
+                <li className="nav-item">                  
+                  <Link className="nav-link" to="/regofintrest"><p>Intresseanmälningar</p></Link>                  
+                </li>
                 <li className="nav-item">
                   <Login />
                 </li>
@@ -43,14 +47,15 @@ function App() {
               </ul>
             </div>             
           </div>
-        </nav>
+        </nav>        
         <Switch>                          
-          <Route exact path="/"><h2>Hemnet40 mäklar sida</h2></Route>
+          <Route exact path="/" component={GetObject} />
           <Route exact path="/getobject" component={GetObject}/>
           <Route exact path="/postobject" component={PostObject}/>
+          <Route exact path="/regofintrest" component={RegOfIntrest}/>
           <Route exact path="/changeobject/:houseObjectId" component={ChangeObject}/>
           <Route exact path="/deleteobject/:houseObjectId" component={DeleteObject}/>
-          <Redirect to="/" />
+          <Redirect to="/" component={GetObject}/>
         </Switch>
       </Router>
     </div>

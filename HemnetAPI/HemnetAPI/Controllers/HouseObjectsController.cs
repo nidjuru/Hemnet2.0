@@ -23,7 +23,7 @@ namespace HemnetAPI.Controllers
         }
 
         // GET: api/HouseObjects
-        [GoogleAuthorize]
+        //[GoogleAuthorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HouseObject>>> GetHouseObjects()
         {
@@ -31,7 +31,7 @@ namespace HemnetAPI.Controllers
         }
 
         // GET: api/HouseObjects/5
-        [GoogleAuthorize]
+        //[GoogleAuthorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<HouseObject>> GetHouseObject(int id)
         {

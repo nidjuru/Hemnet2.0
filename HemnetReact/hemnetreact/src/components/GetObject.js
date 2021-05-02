@@ -8,7 +8,6 @@ const GetObject = () => {
     const [objectState, setObjectState] = useState([]); 
     const token = localStorage.getItem('myToken'); 
     let history = useHistory();
-    console.log(token);
 
     useEffect(() => {
         if(token === null)

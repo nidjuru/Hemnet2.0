@@ -8,7 +8,6 @@ function Login() {
 
     const onSuccess = (res) => {
         console.log('[Login Success] currentUser:', res.profileObj);
-        console.log(res);
         refreshTokenSetup(res);
         localStorage.setItem('myToken', res.tokenId);
     };

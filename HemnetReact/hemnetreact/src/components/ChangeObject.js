@@ -7,24 +7,12 @@ const ChangeObject = () =>{
     let {houseObjectId} = useParams();
     const getObjectURL = `${url}/${houseObjectId}`;
     const token = localStorage.getItem('myToken');
-    //const [objectState, setObjectState] = useState([]);
     let history = useHistory();
 
-//   const [images, setImages] = useState("");
-//   const [address, setAddress] = useState("");
-//   const [housingType, setHousingType] = useState("");
-//   const [formOfLease, setFormOfLease] = useState("");
-//   const [price, setPrice] = useState("");
-//   const [rooms, setRooms] = useState();
-//   const [livingArea, setLivingArea] = useState();
-//   const [biArea, setBiArea] = useState();
-//   const [plotArea, setPlotArea] = useState();
-//   const [descriptions, setDescriptions] = useState("");
-//   const [showingDate, setShowingDate] = useState("");
-//   const [latitude, setLatitude] = useState("");
-//   const [longitude, setLongitude] = useState("");
-//   const [buildYear, setBuildYear] = useState();
-//   const [brookerId, setBrookerId] = useState();
+    function GoBack() {
+      history.push(`/`);
+    }
+
   const [property, setProperty] = useState({
     images: "",
     address: "",
@@ -65,7 +53,7 @@ const ChangeObject = () =>{
   const SubmitForm = (event) => {
     event.preventDefault();
     const body = {
-        houseObjectId: property.houseObjectId,
+      houseObjectId: property.houseObjectId,
       images: property.images,
       address: property.address,
       housingType: property.housingType,
@@ -81,8 +69,8 @@ const ChangeObject = () =>{
       latitude: property.latitude,
       longitude: property.longitude,
       brookerId: property.brookerId
-      // brooker: null,
     };
+    
     if(token === null){
       alert('Du måste vara inloggad för att ändra ett objekt')
     }
@@ -107,117 +95,149 @@ const ChangeObject = () =>{
   };
 
   return (
-    <div>        
-      <form>
-          <lable>Bild länk</lable>
-      <input
-        type="text"
-        //placeholder="Bild"
-        value={property.images}
-        //defaultValue={objectState.images}
-        onChange={(event) => setProperty({ ...property, images: event.target.value})}
-      />
-      <input
-        type="text"
-        //placeholder="Address"
-        value={property.address}
-        //defaultValue={objectState.address}
-        onChange={(event) => setProperty({ ...property, address: event.target.value})}
-      />
-      <input
-        type="text"
-        //placeholder={objectState.price}
-        value={property.price}
-        //defaultValue={objectState.price}
-        onChange={(event) => setProperty({ ...property, price: event.target.value})}
-      />
-      <input
-        type="text"
-        //placeholder={objectState.housingType}
-        value={property.housingType}
-        //defaultValue={objectState.address}
-        onChange={(event) => setProperty({ ...property, housingType: event.target.value})}
-      />
-      <input
-        type="text"
-        //placeholder={objectState.formOfLease}
-        value={property.formOfLease}
-        //defaultValue={objectState.formOfLease}
-        onChange={(event) => setProperty({ ...property, formOfLease: event.target.value})}
-      />
-      <input
-        type="number"
-        //placeholder={objectState.rooms}
-        value={property.rooms}
-        //defaultValue={objectState.rooms}
-        onChange={(event) => setProperty({ ...property, rooms: event.target.value})}
-      />
-      <input
-        type="number"
-        //placeholder={objectState.livingArea}
-        value={property.livingArea}
-        //defaultValue={objectState.livingArea}
-        onChange={(event) => setProperty({ ...property, livingArea: event.target.value})}
-      />
-      <input
-        type="number"
-        //placeholder={objectState.plotArea}
-        value={property.plotArea}
-        //defaultValue={objectState.plotArea}
-        onChange={(event) => setProperty({ ...property, plotArea: event.target.value})}
-      />
-      <input
-        type="number"
-        //placeholder={objectState.biArea}
-        value={property.biArea}
-        //defaultValue={objectState.biArea}
-        onChange={(event) => setProperty({ ...property, biArea: event.target.value})}
-      />
-      <input
-        type="number"
-        //placeholder={objectState.buildYear}
-        value={property.buildYear}
-        //defaultValue={objectState.buildYear}
-        onChange={(event) => setProperty({ ...property, buildYear: event.target.value})}
-      />
-      <input
-        type="text"
-        //placeholder={objectState.latitude}
-        value={property.latitude}
-        //defaultValue={objectState.latitude}
-        onChange={(event) => setProperty({ ...property, latitude: event.target.value})}
-      />
-      <input
-        type="text"
-        //placeholder={objectState.longitude}
-        value={property.longitude}
-        //defaultValue={objectState.longitude}
-        onChange={(event) => setProperty({ ...property, longitude: event.target.value})}
-      /> 
-      <input
-        type="date"
-        //placeholder={objectState.showingDate}
-        value={property.showingDate}
-        //defaultValue={objectState.showingDate}
-        onChange={(event) => setProperty({ ...property, showingDate: event.target.value})}
-      />
-      <textarea
-        type="text"
-        //placeholder={objectState.descriptions}
-        className="form-control"
-        rows="3"           
-        value={property.descriptions}
-        //defaultValue={objectState.descriptions}
-        onChange={(event) => setProperty({ ...property, descriptions: event.target.value})}
-      />
-      <input
-        type="number"
-        //placeholder={objectState.brookerId}
-        value={property.brookerId}
-        //defaultValue={objectState.brookerId}
-        onChange={(event) => setProperty({ ...property, brookerId: event.target.value})}
-      />
-      <button onClick={SubmitForm}>Submit</button>
+    <div className="container">
+      <h2>Ändra objekt</h2>             
+      <form className="row g-3">
+        <div className="col-md-6">
+          <lable className="form-label">Bild länk</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={property.images}
+            onChange={(event) => setProperty({ ...property, images: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Address</lable> 
+          <input
+            className="form-control"
+            type="text"
+            value={property.address}
+            onChange={(event) => setProperty({ ...property, address: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Pris</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={property.price}
+            onChange={(event) => setProperty({ ...property, price: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Bostadstyp</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={property.housingType}
+            onChange={(event) => setProperty({ ...property, housingType: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Upplåtelseform</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={property.formOfLease}
+            onChange={(event) => setProperty({ ...property, formOfLease: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Antal rum</lable>
+          <input
+           className="form-control"
+            type="number"
+            value={property.rooms}
+            onChange={(event) => setProperty({ ...property, rooms: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Boarea</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={property.livingArea}
+            onChange={(event) => setProperty({ ...property, livingArea: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Tomtarea</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={property.plotArea}
+            onChange={(event) => setProperty({ ...property, plotArea: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Biarea</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={property.biArea}
+            onChange={(event) => setProperty({ ...property, biArea: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Byggår</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={property.buildYear}
+            onChange={(event) => setProperty({ ...property, buildYear: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Latitude</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={property.latitude}
+            onChange={(event) => setProperty({ ...property, latitude: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Longitude</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={property.longitude}
+           onChange={(event) => setProperty({ ...property, longitude: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Visningsdatum</lable> 
+          <input
+            className="form-control"
+            type="date"
+            value={property.showingDate}
+           onChange={(event) => setProperty({ ...property, showingDate: event.target.value})}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Mäklar ID</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={property.brookerId}
+            onChange={(event) => setProperty({ ...property, brookerId: event.target.value})}
+          />
+        </div>
+        <div className="col-md-12">
+          <lable className="form-label">Beskrivning</lable>
+          <textarea
+            type="text"
+            className="form-control"
+            rows="4"           
+            value={property.descriptions}
+            onChange={(event) => setProperty({ ...property, descriptions: event.target.value})}
+          />
+        </div>
+        <div className="col-md-12">
+          <button className="btn btn-primary" style={{marginRight: "20px"}} onClick={SubmitForm}>Submit</button>
+          <button className="btn btn-primary" onClick={()=>GoBack()}>Tillbaka</button>
+        </div>
       </form>
     </div>
   );

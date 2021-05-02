@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const url = `http://localhost:58403/api/HouseObjects`;
 
 const PostObject = () => {
   const token = localStorage.getItem('myToken');
+  let history = useHistory();
+
+  function GoBack() {
+    history.push(`/`);
+  }
 
   const [images, setImages] = useState("");
   const [address, setAddress] = useState("");
@@ -39,8 +45,8 @@ const PostObject = () => {
       latitude: latitude,
       longitude: longitude,
       brookerId: brookerId
-      // brooker: null,
     };
+    
     if(token === null){
       alert('Du måste vara inloggad för att lägga till ett objekt')
     }
@@ -74,101 +80,149 @@ const PostObject = () => {
   };
 
   return (
-    <div>
-      <form>
-      <input
-        type="text"
-        placeholder="Bild länk"
-        value={images}
-        onChange={(event) => setImages(event.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Address"
-        value={address}
-        onChange={(event) => setAddress(event.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Pris"
-        value={price}
-        onChange={(event) => setPrice(event.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Bostadstyp"
-        value={housingType}
-        onChange={(event) => setHousingType(event.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Upplåtelseform"
-        value={formOfLease}
-        onChange={(event) => setFormOfLease(event.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Antal rum"
-        value={rooms}
-        onChange={(event) => setRooms(event.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Boarea"
-        value={livingArea}
-        onChange={(event) => setLivingArea(event.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Tomtarea"
-        value={plotArea}
-        onChange={(event) => setPlotArea(event.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Biarea"
-        value={biArea}
-        onChange={(event) => setBiArea(event.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Byggår"
-        value={buildYear}
-        onChange={(event) => setBuildYear(event.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Latitude"
-        value={latitude}
-        onChange={(event) => setLatitude(event.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Longitude"
-        value={longitude}
-        onChange={(event) => setLongitude(event.target.value)}
-      /> 
-      <input
-        type="date"
-        placeholder="Visningstid"
-        value={showingDate}
-        onChange={(event) => setShowingDate(event.target.value)}
-      />
-      <textarea
-        type="text"
-        placeholder="Beskrivning"
-        className="form-control"
-        rows="3"           
-        value={descriptions}
-        onChange={(event) => setDescriptions(event.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Mäklar ID"
-        value={brookerId}
-        onChange={(event) => setBrookerId(event.target.value)}
-      />
-      <button onClick={SubmitForm}>Submit</button>
+    <div className="container">
+      <h2>Lägg till ett nytt objekt</h2>
+      <form className="row g-3">
+        <div className="col-md-6">
+          <lable className="form-label">Bild länk</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={images}
+            onChange={(event) => setImages(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Address</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={address}
+            onChange={(event) => setAddress(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Pris</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={price}
+            onChange={(event) => setPrice(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Bostadstyp</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={housingType}
+            onChange={(event) => setHousingType(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Upplåtelseform</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={formOfLease}
+            onChange={(event) => setFormOfLease(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Antal rum</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={rooms}
+            onChange={(event) => setRooms(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Boarea</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={livingArea}
+            onChange={(event) => setLivingArea(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Tomtarea</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={plotArea}
+            onChange={(event) => setPlotArea(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Biarea</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={biArea}
+            onChange={(event) => setBiArea(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Byggår</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={buildYear}
+            onChange={(event) => setBuildYear(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Latitude</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={latitude}
+            onChange={(event) => setLatitude(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Longitude</lable>
+          <input
+            className="form-control"
+            type="text"
+            value={longitude}
+            onChange={(event) => setLongitude(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Visningsdatum</lable> 
+          <input
+            className="form-control"
+            type="date"
+            value={showingDate}
+            onChange={(event) => setShowingDate(event.target.value)}
+          />
+        </div>
+        <div className="col-md-6">
+          <lable className="form-label">Mäklar ID</lable>
+          <input
+            className="form-control"
+            type="number"
+            value={brookerId}
+            onChange={(event) => setBrookerId(event.target.value)}
+          />
+        </div>          
+        <div className="col-md-12">
+          <lable className="form-label">Beskrivning</lable>
+          <textarea
+            type="text"
+            className="form-control"
+            rows="4"           
+            value={descriptions}
+            onChange={(event) => setDescriptions(event.target.value)}
+          />
+        </div>
+        <div className="col-md-12">     
+          <button className="btn btn-primary" style={{marginRight: "20px"}} onClick={SubmitForm}>Submit</button>
+          <button className="btn btn-primary" onClick={()=>GoBack()}>Tillbaka</button>
+        </div>
       </form>
     </div>
   );

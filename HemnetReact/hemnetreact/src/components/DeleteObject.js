@@ -10,9 +10,11 @@ const DeleteObject = () =>{
     let history = useHistory();
     const getObjectURL = `${url}/${houseObjectId}`;
     const [objectState, setObjectState] = useState([]);
-    function GoBack(houseObjectId) {
+
+    function GoBack() {
         history.push(`/`);
     }
+    
     const Delete = () => {
         fetch(getObjectURL, {
             method: 'DELETE',
@@ -29,13 +31,13 @@ const DeleteObject = () =>{
     })
 
     return (
-        <>
-            <p>Ta bort objekt</p>
-            <p>{objectState.houseObjectId}</p>
-            <p>{objectState.address}</p>
-            <button className="btn btn-danger" onClick={()=>Delete()}>Ta bort</button>
+        <div className="container">
+            <h2>Ta bort objekt</h2>
+            <p>Objekt ID: {objectState.houseObjectId}</p>
+            <p>Address: {objectState.address}</p>
+            <button className="btn btn-danger" style={{marginRight: "20px"}} onClick={()=>Delete()}>Ta bort</button>
             <button className="btn btn-primary" onClick={()=>GoBack()}>Tillbaka</button>
-        </>
+        </div>
     )
 
 };
