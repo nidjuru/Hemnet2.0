@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const url = `http://localhost:58403/api/HouseObjects`;
+const url = process.env.REACT_APP_API_URL;
 
 const PostObject = () => {
-  const token = localStorage.getItem('myToken');
+  const token = localStorage.getItem("myToken");
   let history = useHistory();
 
   function GoBack() {
@@ -44,39 +44,40 @@ const PostObject = () => {
       buildYear: buildYear,
       latitude: latitude,
       longitude: longitude,
-      brookerId: brookerId
+      brookerId: brookerId,
     };
-    
-    if(token === null){
-      alert('Du måste vara inloggad för att lägga till ett objekt')
-    }
-    else{
-    fetch(url,{
-        method: 'POST',
-        headers: { 'Accept': 'application/json','Content-Type': 'application/json', 
-        "Authorization": `Bearer ${token}` },
+
+    if (token === null) {
+      alert("Du måste vara inloggad för att lägga till ett objekt");
+    } else {
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(body),
-      }
-    ).then((res) =>
-      res.json().then((data) => {
-        setImages("");
-        setAddress("");
-        setHousingType("");
-        setFormOfLease("");
-        setPrice("");
-        setRooms(0);
-        setLivingArea(0);
-        setBiArea(0);
-        setPlotArea(0);
-        setDescriptions("");
-        setShowingDate("");
-        setLatitude("");
-        setLongitude("");
-        setBuildYear(0);
-        setBrookerId(0);
-      })
-    );
-  }
+      }).then((res) =>
+        res.json().then((data) => {
+          setImages("");
+          setAddress("");
+          setHousingType("");
+          setFormOfLease("");
+          setPrice("");
+          setRooms(0);
+          setLivingArea(0);
+          setBiArea(0);
+          setPlotArea(0);
+          setDescriptions("");
+          setShowingDate("");
+          setLatitude("");
+          setLongitude("");
+          setBuildYear(0);
+          setBrookerId(0);
+        })
+      );
+    }
   };
 
   return (
@@ -192,7 +193,7 @@ const PostObject = () => {
           />
         </div>
         <div className="col-md-6">
-          <lable className="form-label">Visningsdatum</lable> 
+          <lable className="form-label">Visningsdatum</lable>
           <input
             className="form-control"
             type="date"
@@ -208,20 +209,28 @@ const PostObject = () => {
             value={brookerId}
             onChange={(event) => setBrookerId(event.target.value)}
           />
-        </div>          
+        </div>
         <div className="col-md-12">
           <lable className="form-label">Beskrivning</lable>
           <textarea
             type="text"
             className="form-control"
-            rows="4"           
+            rows="4"
             value={descriptions}
             onChange={(event) => setDescriptions(event.target.value)}
           />
         </div>
-        <div className="col-md-12">     
-          <button className="btn btn-primary" style={{marginRight: "20px"}} onClick={SubmitForm}>Submit</button>
-          <button className="btn btn-primary" onClick={()=>GoBack()}>Tillbaka</button>
+        <div className="col-md-12">
+          <button
+            className="btn btn-primary"
+            style={{ marginRight: "20px" }}
+            onClick={SubmitForm}
+          >
+            Submit
+          </button>
+          <button className="btn btn-primary" onClick={() => GoBack()}>
+            Tillbaka
+          </button>
         </div>
       </form>
     </div>

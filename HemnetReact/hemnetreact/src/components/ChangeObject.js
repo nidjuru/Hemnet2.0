@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
-const url = `http://localhost:58403/api/HouseObjects`;
+const url = process.env.REACT_APP_API_URL;
 
-const ChangeObject = () =>{    
-    let {houseObjectId} = useParams();
-    const getObjectURL = `${url}/${houseObjectId}`;
-    const token = localStorage.getItem('myToken');
-    let history = useHistory();
+const ChangeObject = () => {
+  let { houseObjectId } = useParams();
+  const getObjectURL = `${url}/${houseObjectId}`;
+  const token = localStorage.getItem("myToken");
+  let history = useHistory();
 
-    function GoBack() {
-      history.push(`/`);
-    }
+  function GoBack() {
+    history.push(`/`);
+  }
 
   const [property, setProperty] = useState({
     images: "",
@@ -28,27 +28,23 @@ const ChangeObject = () =>{
     buildYear: 0,
     latitude: "",
     longitude: "",
-    brookerId: 0
+    brookerId: 0,
   });
 
-
   useEffect(() => {
-    if(token === null)
-    {
-        history.push(`/`);
-        alert('Du måste logga in');                 
-    }    
-    else{
-    fetch(getObjectURL, {
-        headers:{"Authorization": `Bearer ${token}`}
-    })
-    .then(res => res.json()
-    .then(data => {
-        setProperty(data)
-    }));
-    
+    if (token === null) {
+      history.push(`/`);
+      alert("Du måste logga in");
+    } else {
+      fetch(getObjectURL, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((res) =>
+        res.json().then((data) => {
+          setProperty(data);
+        })
+      );
     }
-}, []);
+  }, []);
 
   const SubmitForm = (event) => {
     event.preventDefault();
@@ -68,35 +64,35 @@ const ChangeObject = () =>{
       buildYear: property.buildYear,
       latitude: property.latitude,
       longitude: property.longitude,
-      brookerId: property.brookerId
+      brookerId: property.brookerId,
     };
-    
-    if(token === null){
-      alert('Du måste vara inloggad för att ändra ett objekt')
-    }
-    else{
-    fetch(getObjectURL,{
-        method: 'PUT',
-        headers: { 'Accept': 'application/json','Content-Type': 'application/json', 
-        "Authorization": `Bearer ${token}` },
+
+    if (token === null) {
+      alert("Du måste vara inloggad för att ändra ett objekt");
+    } else {
+      fetch(getObjectURL, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(body),
-      }
-    ).then((res) => {
-        res.json().then((data) => {
+      })
+        .then((res) => {
+          res.json().then((data) => {
             setProperty([]);
+          });
         })
-        
+        .then(() => {
+          history.push(`/getobject`);
+        });
     }
-    ).then(() => {
-        history.push(`/getobject`)
-    });
-    
-  }
   };
 
   return (
     <div className="container">
-      <h2>Ändra objekt</h2>             
+      <h2>Ändra objekt</h2>
       <form className="row g-3">
         <div className="col-md-6">
           <lable className="form-label">Bild länk</lable>
@@ -104,16 +100,20 @@ const ChangeObject = () =>{
             className="form-control"
             type="text"
             value={property.images}
-            onChange={(event) => setProperty({ ...property, images: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, images: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
-          <lable className="form-label">Address</lable> 
+          <lable className="form-label">Address</lable>
           <input
             className="form-control"
             type="text"
             value={property.address}
-            onChange={(event) => setProperty({ ...property, address: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, address: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -122,7 +122,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="text"
             value={property.price}
-            onChange={(event) => setProperty({ ...property, price: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, price: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -131,7 +133,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="text"
             value={property.housingType}
-            onChange={(event) => setProperty({ ...property, housingType: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, housingType: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -140,16 +144,20 @@ const ChangeObject = () =>{
             className="form-control"
             type="text"
             value={property.formOfLease}
-            onChange={(event) => setProperty({ ...property, formOfLease: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, formOfLease: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
           <lable className="form-label">Antal rum</lable>
           <input
-           className="form-control"
+            className="form-control"
             type="number"
             value={property.rooms}
-            onChange={(event) => setProperty({ ...property, rooms: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, rooms: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -158,7 +166,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="number"
             value={property.livingArea}
-            onChange={(event) => setProperty({ ...property, livingArea: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, livingArea: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -167,7 +177,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="number"
             value={property.plotArea}
-            onChange={(event) => setProperty({ ...property, plotArea: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, plotArea: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -176,7 +188,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="number"
             value={property.biArea}
-            onChange={(event) => setProperty({ ...property, biArea: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, biArea: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -185,7 +199,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="number"
             value={property.buildYear}
-            onChange={(event) => setProperty({ ...property, buildYear: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, buildYear: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -194,7 +210,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="text"
             value={property.latitude}
-            onChange={(event) => setProperty({ ...property, latitude: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, latitude: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -203,16 +221,20 @@ const ChangeObject = () =>{
             className="form-control"
             type="text"
             value={property.longitude}
-           onChange={(event) => setProperty({ ...property, longitude: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, longitude: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
-          <lable className="form-label">Visningsdatum</lable> 
+          <lable className="form-label">Visningsdatum</lable>
           <input
             className="form-control"
             type="date"
             value={property.showingDate}
-           onChange={(event) => setProperty({ ...property, showingDate: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, showingDate: event.target.value })
+            }
           />
         </div>
         <div className="col-md-6">
@@ -221,7 +243,9 @@ const ChangeObject = () =>{
             className="form-control"
             type="number"
             value={property.brookerId}
-            onChange={(event) => setProperty({ ...property, brookerId: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, brookerId: event.target.value })
+            }
           />
         </div>
         <div className="col-md-12">
@@ -229,19 +253,28 @@ const ChangeObject = () =>{
           <textarea
             type="text"
             className="form-control"
-            rows="4"           
+            rows="4"
             value={property.descriptions}
-            onChange={(event) => setProperty({ ...property, descriptions: event.target.value})}
+            onChange={(event) =>
+              setProperty({ ...property, descriptions: event.target.value })
+            }
           />
         </div>
         <div className="col-md-12">
-          <button className="btn btn-primary" style={{marginRight: "20px"}} onClick={SubmitForm}>Submit</button>
-          <button className="btn btn-primary" onClick={()=>GoBack()}>Tillbaka</button>
+          <button
+            className="btn btn-primary"
+            style={{ marginRight: "20px" }}
+            onClick={SubmitForm}
+          >
+            Submit
+          </button>
+          <button className="btn btn-primary" onClick={() => GoBack()}>
+            Tillbaka
+          </button>
         </div>
       </form>
     </div>
   );
-
 };
 
 export default ChangeObject;
