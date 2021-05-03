@@ -1,6 +1,7 @@
 ﻿using HemnetMVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace HemnetMVC.Controllers
 {
     public class HouseObjectController : Controller
     {
+        private IConfiguration _config;
+        public HouseObjectController(IConfiguration config)
+        {
+            _config = config;
+        }
 
         // GET: HouseObjectController
         public async Task<ActionResult> Index(string sortAddress, string sortPrice, string sortRooms, string sortLivingArea, string sortLivingAreaMax)
@@ -20,7 +26,7 @@ namespace HemnetMVC.Controllers
 
             using (var client = new HttpClient())
             {
-                var result = await client.GetAsync("http://localhost:58403/api/HouseObjects");
+                var result = await client.GetAsync(_config.GetValue<string>("prod") + "HouseObjects");
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -86,7 +92,7 @@ namespace HemnetMVC.Controllers
 
             using (var client = new HttpClient())
             {
-                var result = await client.GetAsync("http://localhost:58403/api/HouseObjects");
+                var result = await client.GetAsync(_config.GetValue<string>("prod") + "HouseObjects");
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -108,7 +114,7 @@ namespace HemnetMVC.Controllers
 
             using (var client = new HttpClient())
             {
-                var result = await client.GetAsync("http://localhost:58403/api/HouseObjects/" + id);
+                var result = await client.GetAsync(_config.GetValue<string>("prod") + "HouseObjects");
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -132,7 +138,7 @@ namespace HemnetMVC.Controllers
             }
 
             using var client = new HttpClient();
-            var result = await client.PostAsJsonAsync("http://localhost:58403/api/HouseObjects/" + objects.HouseObjectId + "/RegOfIntrest", objects);
+            var result = await client.PostAsJsonAsync(_config.GetValue<string>("prod") + "HouseObjects" + objects.HouseObjectId + "/RegOfIntrest", objects);
 
             if (result.IsSuccessStatusCode)
             {

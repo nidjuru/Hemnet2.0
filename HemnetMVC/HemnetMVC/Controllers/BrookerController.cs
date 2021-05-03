@@ -1,6 +1,7 @@
 ﻿using HemnetMVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,11 @@ namespace HemnetMVC.Controllers
 {
     public class BrookerController : Controller
     {
+        private IConfiguration _config;
+        public BrookerController(IConfiguration config)
+        {
+            _config = config;
+        }
         // GET: BrookerController
         public async Task<ActionResult> Brookers()
         {
@@ -18,7 +24,7 @@ namespace HemnetMVC.Controllers
 
             using (var client = new HttpClient())
             {
-                var result = await client.GetAsync("http://localhost:58403/api/Brookers");
+                var result = await client.GetAsync(_config.GetValue<string>("prod") + "Brookers");
 
                 if (result.IsSuccessStatusCode)
                 {
