@@ -1,5 +1,5 @@
 {
-    "staticWebApps.appSubpath": "/",
+    "staticWebApps.appSubpath": "/hemnetreact/hemnetreact",
     "staticWebApps.apiSubpath": "",
     "staticWebApps.outputSubpath": "build"
 }

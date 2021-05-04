@@ -114,7 +114,7 @@ namespace HemnetMVC.Controllers
 
             using (var client = new HttpClient())
             {
-                var result = await client.GetAsync(_config.GetValue<string>("prod") + "HouseObjects");
+                var result = await client.GetAsync(_config.GetValue<string>("prod") + "HouseObjects/" + id);
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -138,7 +138,7 @@ namespace HemnetMVC.Controllers
             }
 
             using var client = new HttpClient();
-            var result = await client.PostAsJsonAsync(_config.GetValue<string>("prod") + "HouseObjects" + objects.HouseObjectId + "/RegOfIntrest", objects);
+            var result = await client.PostAsJsonAsync(_config.GetValue<string>("prod") + "HouseObjects/" + objects.HouseObjectId + "/RegOfIntrest/", objects);
 
             if (result.IsSuccessStatusCode)
             {
