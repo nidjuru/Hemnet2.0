@@ -27,7 +27,9 @@ const GetObject = () => {
   return (
     <div className="container">
       <div className="main">
-        <h2>Lista på hus</h2>
+        <h2>
+          Lista !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! hus
+        </h2>
         <ul className="cards">
           {objectState.map((object) => (
             <>
