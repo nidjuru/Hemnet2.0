@@ -24,8 +24,9 @@ namespace HemnetMVC.Controllers
 
             using (var client = new HttpClient())
             {
+                //Här går vi mot vår endpoint.
                 var result = await client.GetAsync(_config.GetValue<string>("prod") + "Brookers");
-
+                //Om den lyckas, så kommer vi rendera ut vår lista av mäklare.
                 if (result.IsSuccessStatusCode)
                 {
                     houses = await result.Content.ReadAsAsync<IList<BrookerViewModel>>();

@@ -111,14 +111,14 @@ namespace HemnetAPI.Controllers
         [HttpPost("{houseObjectId}/RegOfIntrest")]
         public async Task<ActionResult<RegOfIntrest>> RegOfIntrest(int houseObjectId, Customer customer)
         {
-            // check if the book exists
+            // Kollar om husobjektet finns.
             var house = await _context.HouseObjects.FindAsync(houseObjectId);
             if (house == null)
             {
                 return NotFound();
             }
 
-            // create user if it doesn't exist
+            // Skapar upp en ny "customer", ifall den inte redan existerar, och vi kollar då på email.
             if (!CustomerExists(customer.Email))
             {
                 _context.Customers.Add(customer);
@@ -128,13 +128,13 @@ namespace HemnetAPI.Controllers
 
             var subscription = new RegOfIntrest() { HouseObjectId = houseObjectId, CustomerEmail = customer.Email };
 
-            // check if the user is already subscribed and return conflict
+            // Här kollar vi om kunden redan har en intresseanmälan på "det" objektet.
             if (RegOfIntrestExists(subscription.HouseObjectId, subscription.CustomerEmail))
             {
                 return Conflict();
             }
 
-            // finally add subscription
+            // Slutligen gör en Intresseanmälan.
             _context.RegOfIntrests.Add(subscription);
             try
             {

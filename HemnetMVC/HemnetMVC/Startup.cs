@@ -42,6 +42,7 @@ namespace HemnetMVC
 
             app.UseRouting();
 
+            //För vår google-autentisering.
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

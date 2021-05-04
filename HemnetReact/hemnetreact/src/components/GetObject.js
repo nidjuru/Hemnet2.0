@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./styles/style.css";
 
+// Url Hårdkodas för varje vy, och det enda som skiljer dem åt, är deras endpoints.
 const url = "https://hemnetapi.azurewebsites.net/api/HouseObjects";
 
 const GetObject = () => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./styles/style.css";
 
+// Url Hårdkodas för varje vy, och det enda som skiljer dem åt, är deras endpoints.(OBS REGOFINTRESTS)
 const url = "https://hemnetapi.azurewebsites.net/api/RegOfIntrests";
 
 const RegOfIntrest = () => {

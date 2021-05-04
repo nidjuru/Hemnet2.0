@@ -20,6 +20,7 @@ namespace HemnetAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
+            //Här säger vi till EF att CustomerEmail och HouseObjectId är komposit nycklar.
             modelbuilder.Entity<RegOfIntrest>()
                 .HasKey(ba => new { ba.CustomerEmail, ba.HouseObjectId });
         }

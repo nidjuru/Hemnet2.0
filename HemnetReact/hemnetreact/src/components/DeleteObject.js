@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
+// Url Hårdkodas för varje vy, och det enda som skiljer dem åt, är deras endpoints.
 const url = "https://hemnetapi.azurewebsites.net/api/HouseObjects";
 
 const DeleteObject = () => {

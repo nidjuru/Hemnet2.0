@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
+// Url Hårdkodas för varje vy, och det enda som skiljer dem åt, är deras endpoints.
 const url = "https://hemnetapi.azurewebsites.net/api/HouseObjects";
 
+//Här hämtar vi ut ID, mha, useParams().
+//Så att vi kan skicka in det i URL:en.
+//useHistory() så vi kan redirecta till andra sidor i en funktion.
 const ChangeObject = () => {
   let { houseObjectId } = useParams();
   const getObjectURL = `${url}/${houseObjectId}`;
@@ -13,6 +17,7 @@ const ChangeObject = () => {
     history.push(`/`);
   }
 
+  //Vår useState för models.
   const [property, setProperty] = useState({
     images: "",
     address: "",
@@ -31,6 +36,8 @@ const ChangeObject = () => {
     brookerId: 0,
   });
 
+  //Här validerar vi om användaren har behörighet.
+  //Om inte, så skickas man tillbaka, annars gör vi en Fetch.
   useEffect(() => {
     if (token === null) {
       history.push(`/`);
@@ -44,8 +51,9 @@ const ChangeObject = () => {
         })
       );
     }
-  }, [getObjectURL, history, token]);
+  }, [getObjectURL, history, token]); //Här skickar vi in alla dependencies som är utanför funktionen.
 
+  //Här är vår onClick(), som vi binder till alla inputs.
   const SubmitForm = (event) => {
     event.preventDefault();
     const body = {
@@ -66,7 +74,8 @@ const ChangeObject = () => {
       longitude: property.longitude,
       brookerId: property.brookerId,
     };
-
+    //Här kollar vi igen om man har behörighet att Posta(), om inte kommer du få en alert om att logga in.
+    //Ifall mäklaren har en validerad token, kan han utföra sina ändringar.
     if (token === null) {
       alert("Du måste vara inloggad för att ändra ett objekt");
     } else {

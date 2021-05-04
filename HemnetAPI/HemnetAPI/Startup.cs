@@ -27,11 +27,10 @@ namespace HemnetAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //Här säger vi till vårt API att vi kan tillåta kommunikationer mellan olika domäner.
             services.AddCors(opt => opt.AddDefaultPolicy(builder => builder
                .AllowAnyOrigin()
                .AllowAnyMethod()
-               //.WithOrigins("http://localhost:3000", "https://localhost:3000")
                .AllowAnyHeader()));
 
             services.AddControllers();
@@ -58,11 +57,11 @@ namespace HemnetAPI
             }
 
             app.UseRouting();
-
+            //Den här behövs för Google-auth
             app.UseAuthorization();
 
             app.UseHttpsRedirection();
-
+            //Den här behövs för kommunikation mellan olika domäner.
             app.UseCors();
 
             app.UseEndpoints(endpoints =>

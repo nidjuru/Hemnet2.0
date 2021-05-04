@@ -13,6 +13,7 @@ namespace HemnetMVC.Controllers
 {
     public class HouseObjectController : Controller
     {
+        //Rad 17 och 18  kollar controllern mot appsettings.production och "maskerar" vårt API-URL
         private IConfiguration _config;
         public HouseObjectController(IConfiguration config)
         {
@@ -20,25 +21,29 @@ namespace HemnetMVC.Controllers
         }
 
         // GET: HouseObjectController
+        // I parameterarna, så lägger vi in våra sökkriterier.
         public async Task<ActionResult> Index(string sortAddress, string sortPrice, string sortRooms, string sortLivingArea, string sortLivingAreaMax)
         {
             IList<HouseObjectViewModel> houses = null;
 
             using (var client = new HttpClient())
             {
+                //Vi anropar APIet här.
                 var result = await client.GetAsync(_config.GetValue<string>("prod") + "HouseObjects");
 
                 if (result.IsSuccessStatusCode)
                 {
+                    //Renderar vi alla Objekt.
                     houses = await result.Content.ReadAsAsync<IList<HouseObjectViewModel>>();
 
                     // Searchbox
                     if (!string.IsNullOrEmpty(sortAddress))
                     {
+
                         var searchResult = houses
                             .Where(r => r.Address.ToLower().Contains(sortAddress.ToLower()));
 
-                        // Show to results on the search
+                        // Här visas en lista på alla objekt, som matchar sökkriterierna.
                         return View(searchResult);
                     }
 
@@ -47,7 +52,7 @@ namespace HemnetMVC.Controllers
                         var searchResult = houses
                             .Where(r => Convert.ToDouble(r.Price) <= Convert.ToDouble(sortPrice));
 
-                        // Show to results on the search
+                        // Här visas en lista på alla objekt, som matchar sökkriterierna.
                         return View(searchResult);
                     }
 
@@ -56,7 +61,7 @@ namespace HemnetMVC.Controllers
                         var searchResult = houses
                             .Where(r => Convert.ToDouble(r.Rooms) >= Convert.ToDouble(sortRooms));
 
-                        // Show to results on the search
+                        // Här visas en lista på alla objekt, som matchar sökkriterierna.
                         return View(searchResult);
                     }
 
@@ -65,7 +70,7 @@ namespace HemnetMVC.Controllers
                         var searchResult = houses
                             .Where(r => Convert.ToDouble(r.LivingArea) >= Convert.ToDouble(sortLivingArea));
 
-                        // Show to results on the search
+                        // Här visas en lista på alla objekt, som matchar sökkriterierna.
                         return View(searchResult);
                     }
 
@@ -74,7 +79,7 @@ namespace HemnetMVC.Controllers
                         var searchResult = houses
                             .Where(r => Convert.ToDouble(r.LivingArea) <= Convert.ToDouble(sortLivingAreaMax));
 
-                        // Show to results on the search
+                        // Här visas en lista på alla objekt, som matchar sökkriterierna.
                         return View(searchResult);
                     }
                 }
@@ -86,6 +91,7 @@ namespace HemnetMVC.Controllers
             return View(houses);
         }
 
+        // Get för kartan.
         public async Task<ActionResult> Map()
         {
             IList<HouseObjectViewModel> houses = null;
@@ -106,7 +112,7 @@ namespace HemnetMVC.Controllers
             return View(houses.ToList());
         }
 
-        // GET: HouseObjectController/Details/5
+        // GET: HouseObjectController/Details/ -> Här går vi in på enskilda objekt, int id parametern plockar ut det objekt som skall visas på en ny sida.
         public async Task<ActionResult> Details(int id)
         {
 
@@ -129,7 +135,7 @@ namespace HemnetMVC.Controllers
             }
         }
 
-        // POST: HouseObjectController/Details/5
+        // POST: Intresseanmälan för enskilda objekt.
         public async Task<ActionResult> RegOfIntrest(HouseObjectViewModel objects)
         {
             if (!ModelState.IsValid)
